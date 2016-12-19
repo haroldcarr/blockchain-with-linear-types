@@ -1,0 +1,9 @@
+
+- Linear Types Can Change the Blockchain, Lucius Gregory Meredith
+  - [[https://arxiv.org/abs/1506.01001]]
+  - via : [[http://researcher.watson.ibm.com/researcher/view_group_subpage.php?id=6940]]
+
+- Computational interpretations of linear logic, Samson Abramsky
+  - [[http://www.sciencedirect.com/science/article/pii/030439759390181R]]
+
+

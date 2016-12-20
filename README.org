@@ -1,10 +1,15 @@
 This is a quick, incorrect hack.  Fix it and send a pull request!  ;-)
 
 - Linear Types Can Change the Blockchain, Lucius Gregory Meredith
-  - [[https://arxiv.org/abs/1506.01001]]
-  - via : [[http://researcher.watson.ibm.com/researcher/view_group_subpage.php?id=6940]]
+  - paper
+    - [[https://arxiv.org/abs/1506.01001]]
+    - tex : [[https://github.com/leithaus/pi4u/tree/master/ltcctbc]]
+    - I found via a different paper referenced at : [[http://researcher.watson.ibm.com/researcher/view_group_subpage.php?id=6940]]
+  - reddit : [[https://www.reddit.com/r/Bitcoin/comments/37b0t6/linear_types_can_change_the_blockchain/?st=iwxtw7n6&sh=0a20de4f]]
+    - hangout : [[https://plus.google.com/u/0/events/cmqejp6d43n5cqkdl3iu0582f4k]]
 
-- Computational interpretations of linear logic, Samson Abramsky
-  - [[http://www.sciencedirect.com/science/article/pii/030439759390181R]]
+- references
+  - Computational interpretations of linear logic, Samson Abramsky
+    - [[http://www.sciencedirect.com/science/article/pii/030439759390181R]]
 
 

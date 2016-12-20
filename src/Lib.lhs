@@ -2,29 +2,29 @@
 
 REPRESENTATION
 
-Represents blockchain states.
+`Program` represents a blockchain state.
 
-[Expr] represent resources available on the blockchain.
+`[Expr]` represents resources available on the blockchain.
 
-[Transaction] represent transactions in progress.
+`[Transaction]` represents transactions in progress.
 
 e.g.,
 
-Program [1blkchnaddr] [Txn 1blkchnaddr (M Satoshi)]
+`Program [1blkchnaddr] [Txn 1blkchnaddr (M . Satoshi)]`
 
-represents the genesis block: where 1blkchnaddr has been assigned M Satoshi, more accurately written
+represents the genesis block: where `1blkchnaddr` has been assigned M Satoshi, more accurately written
 
-Program [addr1, ... addrM] [Txn addr1, Satoshi, ..., Txn addrM, Satoshi]
+`Program [addr1 * ... * addrM] [Txn addr1, Satoshi, ..., Txn addrM, Satoshi]`
 
 > genesis = gb Satoshi
 
 and
 
-Program [1blkchnaddr] [Txn 1blkchnaddr Disposal]
+`Program [1blkchnaddr] [Txn 1blkchnaddr Disposal]`
 
-represents disposing the assets in 1blkchnaddr, more accurately written
+represents disposing the assets in `1blkchnaddr`, more accurately written
 
-Program [addr1, ... addrM] [Txn addr1 Disposal, ..., Txn addrM Disposal]
+`Program [addr1 * ... * addrM] [Txn addr1 Disposal, ..., Txn addrM Disposal]`
 
 > burn = gb Disposal
 
@@ -56,8 +56,8 @@ Program [addr1, ... addrM] [Txn addr1 Disposal, ..., Txn addrM Disposal]
 OPERATIONAL SEMANTICS
 
 > -- transaction
-> step (Txn e1 x : Txn x' e2 : ts) | x == x'
->   =  Txn e1 e2 : ts
+> step (Txn e1 (Addr x) : Txn (Addr x') e2 : ts) | x == x'
+>   = Txn e1 e2 : ts
 
 > -- pair
 > step (Txn (Isolation  e1 e1')
@@ -65,12 +65,14 @@ OPERATIONAL SEMANTICS
 >   = Txn e1 e2 : Txn e1' e2' : ts
 
 > -- left
-> step (Txn (Choose (x:xs) (Program (e:es) pts) _)
+> step (Txn (Choose (x:xs) (Program (e:es) pts)
+>                          _)
 >           (InL e') : ts)
->   = Txn e e' : pts ++ fmap (\(x,e) -> Txn (Addr x) e) (zip xs es) ++ ts
+>   = Txn e e' : pts ++ mkTxns xs es ++ ts
 
 > -- right
-> step (Txn (Choose (x:xs) _                    (Program (e:es) pts))
+> step (Txn (Choose (x:xs) _
+>                          (Program (e:es) pts))
 >           (InR e') : ts)
 >   = Txn e e' : pts ++ mkTxns xs es ++ ts
 
@@ -114,9 +116,9 @@ Utilities
 >   Disposal -> go
 >   _        -> error "no"
 >  where
->   go    = Program addrs txns
+>   go    = Program [addrs] txns
 >   ms    = [ 1 .. m ]
->   addrs = fmap Addr                      ms
+>   addrs = mkI  1 m
 >   txns  = fmap (\a -> Txn (Addr a) gOrB) ms
 
 > mkTxns  xs es | length xs == length es = mkTxns' xs es

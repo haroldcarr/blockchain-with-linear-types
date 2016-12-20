@@ -105,9 +105,9 @@ and deposit them in addr1 through addrI.
 
 To do so, create transaction that selects genesis block from menu of blockchain states
 
-> selectGenesicBlockTxn i m =
->   Txn (genesisExpr m)
->       (InL (Obligation (mkI 1 i) (mkC (i + 1) m)))
+> selectGenesicBlockTxn begin middle end =
+>   Txn (genesisExpr end)
+>       (InL (Obligation (mkI begin middle) (mkC (begin + middle) end)))
 
 Utilities
 

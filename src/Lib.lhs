@@ -39,7 +39,7 @@ represents disposing the assets in `1blkchnaddr`, more accurately written
 >   | Addr        Address                   -- x
 >   | Isolation   Expr      Expr            -- e * e
 >   | Connection  Expr      Expr            -- e # e
->   | Obligation  Expr      Expr            -- e lollipop e
+> --  | Obligation  Expr      Expr            -- e lollipop e
 >   | Choose      [Address] Program Program -- menu
 >   | InL         Expr                      -- selection
 >   | InR         Expr                      -- selection
@@ -107,7 +107,7 @@ To do so, create transaction that selects genesis block from menu of blockchain 
 
 > selectGenesicBlockTxn begin middle end =
 >   Txn (genesisExpr end)
->       (InL (Obligation (mkI begin middle) (mkC (begin + middle) end)))
+>       (InL (obligation (mkI begin middle) (mkC (begin + middle) end)))
 
 Utilities
 
@@ -126,12 +126,16 @@ Utilities
 >
 > mkTxns' xs es = fmap (\(x,e) -> Txn (Addr x) e) (zip xs es)
 
-[ 1 2 3 ]
-  (Isolation (Addr 1) (Isolation (Addr 2) (Addr 3))
-
 > mkI = mkIorC Isolation
 > mkC = mkIorC Connection
 > mkIorC iOrC start end =
 >   foldr (\x y -> iOrC (Addr x) y)
 >         (Addr end)
 >         [ start .. end - 1 ]
+
+> obligation e1 e2 =
+>   Connection (xnot e1) e2
+>  where
+>   xnot a@(Addr _) = a
+>   xnot (Isolation  ie1 ie2) = Connection (xnot ie1) (xnot ie2)
+>   xnot (Connection ce1 ce2) = Isolation  (xnot ce1) (xnot ce2)

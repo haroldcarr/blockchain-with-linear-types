@@ -55,40 +55,45 @@ represents disposing the assets in `1blkchnaddr`, more accurately written
 
 OPERATIONAL SEMANTICS
 
+> stepl [] = []
+> stepl (x:xs) = step x ++ stepl xs
+
 > -- transaction
-> step (Txn e1 (Addr x) : Txn (Addr x') e2 : ts) | x == x'
->   = Txn e1 e2 : ts
+> -- step (Txn e1 (Addr x) : Txn (Addr x') e2 : ts) | x == x'
+> --  = Txn e1 e2 : ts
 
 > -- pair
 > step (Txn (Isolation  e1 e1')
->           (Connection e2 e2') : ts)
->   = Txn e1 e2 : Txn e1' e2' : ts
+>           (Connection e2 e2'))
+>   = [ Txn e1 e2, Txn e1' e2' ]
 
 > -- left
 > step (Txn (Choose (x:xs) (Program (e:es) pts)
 >                          _)
->           (InL e') : ts)
->   = Txn e e' : pts ++ mkTxns xs es ++ ts
+>           (InL e'))
+>   = Txn e e' : pts ++ mkTxns xs es
 
 > -- right
 > step (Txn (Choose (x:xs) _
 >                          (Program (e:es) pts))
->           (InR e') : ts)
->   = Txn e e' : pts ++ mkTxns xs es ++ ts
+>           (InR e'))
+>   = Txn e e' : pts ++ mkTxns xs es
 
 > -- read
 > step (Txn (Replication xs (Program (e:es) pts))
->           (Storage e') : ts)
+>           (Storage e'))
 >   = Txn e e' : mkTxns xs es
 
 > -- dispose
-> step (Txn (Replication xs _) Disposal : ts)
->   = mkTxns' xs [ Disposal | x <- [ 1 .. ]] ++ ts
+> step (Txn (Replication xs _) Disposal)
+>   = mkTxns' xs [ Disposal | x <- [ 1 .. ]]
 
 > -- copy
 > step (Txn (Replication xs p)
->           (Contraction e1 e2) : ts)
+>           (Contraction e1 e2))
 >   = undefined
+
+> step x = [x]
 
 INTERPRETATION
 

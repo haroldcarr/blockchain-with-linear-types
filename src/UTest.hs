@@ -45,7 +45,7 @@ t2r = [Txn (Isolation (Addr 1) (Isolation (Addr 2) (Isolation (Addr 3) (Addr 4))
       ,Txn (Addr 1) Satoshi,Txn (Addr 2) Satoshi,Txn (Addr 3) Satoshi,Txn (Addr 4) Satoshi]
 
 t2 = U.t "t2"
-     (step [sgbtx14])
+     (step sgbtx14)
      t2r
 
 t3r = [Txn (Addr 1)
@@ -55,13 +55,22 @@ t3r = [Txn (Addr 1)
       ,Txn (Addr 1) Satoshi,Txn (Addr 2) Satoshi,Txn (Addr 3) Satoshi,Txn (Addr 4) Satoshi]
 
 t3 = U.t "t3"
-     (step t2r)
+     (stepl t2r)
      t3r
 
+t4r = [Txn (Addr 1) (Connection (Addr 1) (Addr 2))
+      ,Txn (Addr 2) (Addr 3)
+      ,Txn (Isolation (Addr 3) (Addr 4)) (Addr 4)
+      ,Txn (Addr 1) Satoshi,Txn (Addr 2) Satoshi,Txn (Addr 3) Satoshi,Txn (Addr 4) Satoshi]
+
 t4 = U.t "t4"
-     (step t3r)
-     []
+     (stepl t3r)
+     t4r
+
+t5 = U.t "t5"
+     (stepl t4r)
+     t4r -- WRONG
 
 test =
     runTestTT $ TestList $ tg ++ tb ++ toba ++ tobi ++ tobc ++
-                           t1 ++ t2 ++ t3 ++ t4
+                           t1 ++ t2 ++ t3 ++ t4 ++ t5

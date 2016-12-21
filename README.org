@@ -12,4 +12,12 @@ This is a quick, incorrect hack.  Fix it and send a pull request!  ;-)
   - Computational interpretations of linear logic, Samson Abramsky
     - [[http://www.sciencedirect.com/science/article/pii/030439759390181R]]
 
-
+- other papers
+  - Jeff Polakow : Embedding a Full Linear Lambda Calculus in Haskell
+    - [[http://functorial.com/Embedding-a-Full-Linear-Lambda-Calculus-in-Haskell/linearlam.pdf]]
+  - emulating linear types in Haskell
+    - [[http://cs.ioc.ee/~tarmo/tsem11/jeltsch1602-slides.pdf]]
+  - typecoin
+    - [[https://www.msully.net/stuff/typecoin.pdf]]
+    - [[https://www.msully.net/stuff/typecoin-slides.pdf]]
+    - [[https://github.com/msullivan/sully-lf]]

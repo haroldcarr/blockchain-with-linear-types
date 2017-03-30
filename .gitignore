@@ -1,2 +1,5 @@
 *.pdf
 *.stack-work
+*.cabal
+src
+stack.yaml

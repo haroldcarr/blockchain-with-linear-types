@@ -3,3 +3,5 @@
 *.cabal
 src
 stack.yaml
+LICENSE
+Setup.hs
